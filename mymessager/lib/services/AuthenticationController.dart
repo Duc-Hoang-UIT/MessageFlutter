@@ -63,30 +63,38 @@ class Authentication extends GetxController {
 
   final googleSignIn = GoogleSignIn();
   Future signInWithGoogle() async {
-    GoogleSignInAccount userSignInAccount = await googleSignIn.signIn();
-    if (userSignInAccount == null) {
-      Get.snackbar("Warning", "Something wrong happen");
-      return;
-    } else {
-      final googleAuth = await userSignInAccount.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      UserCredential _userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-      UserModel userModel = UserModel(
-        id: _userCredential.user.uid,
-        name: _userCredential.user.displayName,
-        email: _userCredential.user.email,
-        ulrImage: _userCredential.user.photoURL,
-      );
-      Get.find<UserController>().userModel = userModel;
-      Get.find<UserController>().isSignInWithGoogle = true;
-      Get.toNamed("/home");
+    try {
+      GoogleSignInAccount userSignInAccount = await googleSignIn.signIn();
+      if (userSignInAccount == null) {
+        //do nothing
+      } else {
+        final googleAuth = await userSignInAccount.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        UserCredential _userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        UserModel userModel = UserModel(
+          id: _userCredential.user.uid,
+          name: _userCredential.user.displayName,
+          email: _userCredential.user.email,
+          ulrImage: _userCredential.user.photoURL,
+        );
+        if (await Database().createNewUser(userModel)) {
+          Get.find<UserController>().userModel = userModel;
+        }
+
+        Get.find<UserController>().userModel = userModel;
+        Get.find<UserController>().isSignInWithGoogle = true;
+        Get.toNamed("/home");
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 
+  // ignore: non_constant_identifier_names
   Future<void> SignOutWithGoolgeAccoutn() async {
     await googleSignIn.disconnect();
     await signOut();

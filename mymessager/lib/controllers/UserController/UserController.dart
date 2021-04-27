@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mymessager/models/UserModel.dart';
 import 'package:mymessager/services/AuthenticationController.dart';
-import 'package:mymessager/shareds/GoogleSignInButtonCustom.dart';
 
 class UserController extends GetxController {
   //variable thể hiện cách thức đăng nhập
@@ -36,6 +35,7 @@ class UserController extends GetxController {
       await _userAuthentication.signOut();
     } else {
       await _userAuthentication.SignOutWithGoolgeAccoutn();
+      isSignInWithGoogle = false;
     }
   }
 

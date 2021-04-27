@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mymessager/controllers/UserController/UserController.dart';
+import 'package:mymessager/views/Home/ChatRoomPage.dart';
 import 'package:mymessager/views/Home/HomePage.dart';
 import 'package:mymessager/views/LoginPage.dart';
 import 'package:mymessager/views/Register_Page.dart';
@@ -14,6 +15,7 @@ Future<void> main(List<String> args) async {
 
 class MyApp extends StatelessWidget {
   final String title = "My Messager";
+  // ignore: unused_field
   final UserController _userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
         "/": (context) => LoginPage(),
         "/regis": (context) => RegisterPage(),
         "/home": (context) => HomePage(),
+        "/chpage": (context) => ChatRoomPage(),
       },
       debugShowCheckedModeBanner: false,
       title: title,

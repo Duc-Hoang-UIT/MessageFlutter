@@ -7,7 +7,6 @@ import 'package:mymessager/shareds/CustomWidgetButtom.dart';
 import 'package:mymessager/shareds/GoogleSignInButtonCustom.dart';
 import 'package:mymessager/shareds/InputTextFieldWidget.dart';
 import '../controllers/UserController/UserController.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatelessWidget {
   final UserLoginController _userLoginController =
@@ -19,6 +18,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: Container(
           decoration: BoxDecoration(

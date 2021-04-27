@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mymessager/controllers/HomeController.dart/HomeController.dart';
+import 'package:mymessager/controllers/HomeController/HomeController.dart';
 import 'package:mymessager/controllers/UserController/UserController.dart';
 
 class HomePage extends StatelessWidget {
-  UserController _userController = Get.find<UserController>();
-  HomeController _homeController = Get.put(HomeController());
+  final UserController _userController = Get.find<UserController>();
+  // ignore: unused_field
+  final HomeController _homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
