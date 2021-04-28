@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mymessager/models/UserModel.dart';
 import 'package:mymessager/services/Database.dart';
-import 'package:mymessager/views/Home/MenuLayout.dart';
+import 'package:mymessager/views/Home/GroupMessage.dart';
 import 'package:mymessager/views/Home/ProfileLayout.dart';
 import 'package:mymessager/views/Home/SearchLayout.dart';
 
@@ -12,7 +12,7 @@ class HomeController extends RxController {
   var listUserfound = <UserModel>[].obs;
   Widget getBody() {
     if (currentTagIndex.value == 0) {
-      return MenuLayout();
+      return GroupMessage();
     }
     if (currentTagIndex.value == 1) {
       return SearchLayout();

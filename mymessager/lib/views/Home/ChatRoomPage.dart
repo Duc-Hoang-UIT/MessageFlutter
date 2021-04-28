@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mymessager/controllers/ChatRoomController/ChatRoomController.dart';
 import 'package:mymessager/models/UserModel.dart';
+import 'package:mymessager/shareds/ChatBoxWidget.dart';
 import 'package:mymessager/shareds/CircleAvatarImage.dart';
 
 class ChatRoomPage extends StatelessWidget {
@@ -17,32 +17,47 @@ class ChatRoomPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               CircleAvatarImage(
+                width: 50,
+                height: 50,
                 ulrImage: guest.ulrImage,
               ),
-              Text("${guest.name}"),
+              Text(
+                "${guest.name}",
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
             ],
           ),
           backgroundColor: Colors.blue[300],
           leading: Container(
             child: IconButton(
               icon: Icon(Icons.arrow_back),
-              onPressed: () {},
+              onPressed: () {
+                Get.back();
+              },
             ),
           ),
           actions: [
             IconButton(icon: Icon(Icons.phone), onPressed: () {}),
             IconButton(icon: Icon(Icons.video_call), onPressed: () {}),
             IconButton(
-                icon: Icon(Icons.info_outline),
-                onPressed: () {
-                  print(
-                      'Line 38 : ${_chatRoomController.chatBox.length}');
-                }),
+              icon: Icon(Icons.info_outline),
+              onPressed: () {},
+            ),
           ],
         ),
         body: Container(
             child: Stack(
           children: [
+            GetX<ChatRoomController>(builder: (controller) {
+              return controller.roomId == null
+                  ? Container()
+                  : Container(
+                      padding: EdgeInsets.only(bottom: 200),
+                      child:
+                          ChatBoxWidget(chatRoomId: controller.roomId.value));
+            }),
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -63,7 +78,6 @@ class ChatRoomPage extends StatelessWidget {
                         onPressed: () async {
                           await _chatRoomController.addMessage();
                           print("Chat Room Page: 68");
-                          await _chatRoomController.fetchMessage();
                         })
                   ],
                 ),

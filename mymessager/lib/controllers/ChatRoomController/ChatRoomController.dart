@@ -10,7 +10,6 @@ class ChatRoomController extends RxController {
   Rx<UserModel> guest = UserModel().obs;
   Rx<String> roomId = "".obs;
   TextEditingController messageEditingController = TextEditingController();
-  RxList<Map<String, dynamic>> chatBox = <Map<String, dynamic>>[].obs;
 
   initialiseIdRoom() {
     if (master.id.compareTo(guest.value.id) > 0) {
@@ -34,18 +33,34 @@ class ChatRoomController extends RxController {
       };
       await Database().addMessage(roomId.value, messageId, messageInfo);
       Map<String, dynamic> lastMessageInfoMap = {
+        'chatRoomId': roomId.value,
         'lastMessage': message,
         'lastMessageTs': lastMessageTs,
         'lastMessageSendBy': master.name,
+        'urlImage': master.ulrImage,
       };
       await Database().updateLastMessage(roomId.value, lastMessageInfoMap);
     }
     messageEditingController.text = '';
   }
 
-  fetchMessage() async {
+  isMessageSendByMe(String sendBy) {
+    if (sendBy.compareTo(master.name) == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-    await Database().getChatRoomMessage(roomId.value);
-
+  findGuestByRoomId(String roomId) async {
+    var listId = roomId.split("_");
+    String guestId = "";
+    listId.forEach((element) {
+      if (element.compareTo(master.id) != 0) {
+        guestId = element;
+      }
+    });
+    var guest = await Database().getUser(guestId);
+    this.guest.value = guest;
   }
 }

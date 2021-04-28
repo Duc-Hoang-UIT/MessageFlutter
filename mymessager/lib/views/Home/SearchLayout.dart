@@ -50,13 +50,12 @@ class SearchLayout extends StatelessWidget {
             builder: (_) {
               return Expanded(
                 child: ListView.builder(
-                  itemCount:
-                      Get.find<HomeController>().listUserfound.value.length,
+                  itemCount: Get.find<HomeController>().listUserfound.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () async {
                         Get.find<ChatRoomController>().guest.value =
-                            homeController.listUserfound.value[index];
+                            homeController.listUserfound[index];
                         await Get.find<ChatRoomController>().initialiseIdRoom();
                         Get.toNamed("/chpage");
                       },
@@ -72,15 +71,17 @@ class SearchLayout extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CircleAvatarImage(
-                              ulrImage: homeController
-                                  .listUserfound.value[index].ulrImage,
+                              height: 60,
+                              width: 60,
+                              ulrImage:
+                                  homeController.listUserfound[index].ulrImage,
                             ),
                             Column(
                               children: [
                                 Text(
-                                    "${homeController.listUserfound.value[index].name}"),
+                                    "${homeController.listUserfound[index].name}"),
                                 Text(
-                                    "${homeController.listUserfound.value[index].email}"),
+                                    "${homeController.listUserfound[index].email}"),
                               ],
                             )
                           ],

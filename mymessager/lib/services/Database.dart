@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
-import 'package:mymessager/controllers/ChatRoomController/ChatRoomController.dart';
 import 'package:mymessager/models/UserModel.dart';
 
 class Database {
@@ -94,20 +92,15 @@ class Database {
         .update(messageInfo);
   }
 
-  Future getChatRoomMessage(String chatRoomId) async {
-    _firebaseFirestore
+  Stream<QuerySnapshot> chatsStream(String roomId) {
+    Stream<QuerySnapshot> chatsDocumentStream = _firebaseFirestore
         .collection('chatRooms')
-        .doc(chatRoomId)
+        .doc(roomId)
         .collection('chats')
         .orderBy('ts', descending: true)
-        .limit(1)
-        .snapshots()
-        .listen((event) {
-      Get.find<ChatRoomController>()
-          .chatBox
-          .add(event.docChanges[0].doc.data());
-      print('\n');
-      print("Co thay doi ....");
-    });
+        .snapshots();
+    return chatsDocumentStream;
   }
+
+
 }
